@@ -2,10 +2,11 @@ import { defineComponent, provide, reactive } from "vue";
 import MessageEnvironment from './MessageEnvironment'
 
 import { messageApiInjectionKey } from './config'
+import { createId } from './utils'
 
 console.log('init')
 
-export default defineComponent({
+const Hello = defineComponent({
   name: 'MessageProvider',
   props: {
     to: [String, Object],
@@ -21,6 +22,7 @@ export default defineComponent({
     containerStyle: [String, Object]
   },
   setup (props) {
+    debugger
     console.log('setup: ');
 
     const mergedClsPrefix = 'gk'
@@ -114,3 +116,6 @@ export default defineComponent({
     )
   }
 })
+
+console.log('Hello: ', Hello);
+export default Hello

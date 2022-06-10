@@ -3,19 +3,19 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from './components/HelloWorld.vue'
 
-// import { useMessage } from './components/message/index.js'
-import { MessageProvider, useMessage } from './components/message/index.js'
+import { useMessage } from './components/message/index.js'
+// import { MessageProvider, useMessage } from './components/message/index.js'
 // console.log('MessageProvider: ', MessageProvider);
 
 const message = useMessage()
-message.create('hello message')
+// message.create('hello message')
 </script>
 
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
   <HelloWorld msg="Hello Vue 3 + Vite" />
 
-  <MessageProvider />
+  <!-- <MessageProvider /> -->
 </template>
 
 <style lang="scss">
