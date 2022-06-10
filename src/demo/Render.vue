@@ -1,8 +1,6 @@
 <script setup>
 import { getCurrentInstance, ref, inject } from 'vue'
 
-import { toast } from '../demo/toast'
-
 defineProps({
   msg: String
 })
@@ -18,11 +16,9 @@ const word = {
 // const i18n = inject('i18n')
 // console.log(i18n.greetings.hello)
 
-
-toast({
-  name: 'custom',
-  message: 'hello world'
-})
+const globalProperties = getCurrentInstance()?.appContext.config.globalProperties
+console.log(globalProperties.$translate)
+console.log(globalProperties.$translate('greetings.hi'))
 </script>
 
 <template>
@@ -41,19 +37,5 @@ toast({
 <style scoped>
 a {
   color: #42b983;
-}
-</style>
-
-<style lang="scss">
-@import './toast/mixin.scss';
-
-@include appendGkToast(custom) {
-  &#{$position-center} {
-    background: blue;
-  }
-
-  [gk-toast-message] {
-    color: gray;
-  }
 }
 </style>

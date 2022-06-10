@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      height: 500px;
+      width: 30%;
+      margin-bottom: 50px;
+    }
+
+    #a {
+      background-color: red;
+        float: left;
+    }
+
+    #b {
+      background-color: black;
+        float: left;
+    }
+
+    #c {
+      background-color: blue;
+      clear: left;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="a"></div>
+  <div id="b"></div>
+  <div id="c"></div>
+</div>
+<script>
+var io = new IntersectionObserver(
+    entries => {
+      console.log('entries: ', entries);
+      entries.forEach(i => {
+        console.log('Time: ' + i.time);
+        console.log('Target: ' + i.target);
+        console.log('intersectionRect: ' + i.intersectionRect);
+        console.log('IntersectionRatio: ' + i.intersectionRatio);
+        console.log('rootBounds: ' + i.rootBounds);
+        // console.log(i.boundingClientRect);
+        // console.log(i.intersectionRect);
+        console.log('================');
+      });
+    },
+    {
+        /* Using default options. Details below */
+
+
+    }
+);
+
+// Start observing an element
+io.observe(document.querySelector('#a'));
+// io.observe(document.querySelector('#b'));
+
+io.observe(document.querySelector('#c'));
+
+</script>
+</body>
+</html>

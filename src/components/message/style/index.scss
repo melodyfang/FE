@@ -1,0 +1,63 @@
+@import './mixin.scss';
+
+// @include appendGkMessage(base) {
+//   & #{$wrap} {
+    // z-index: 0;
+    // transform-origin: top center;
+    // display: flex;
+//   }
+// }
+
+
+
+.gk-message-container {
+  z-index: 6000;
+  position: fixed;
+  height: 0;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+[gk-message-position="top"] {
+  top: 12px;
+  left: 0;
+  right: 0;
+}
+
+.gk-message-wrapper {
+  z-index: 0;
+  transform-origin: top center;
+  display: flex;
+}
+
+.gk-message {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition:
+    color .3s $cubicBezierEaseInOut,
+    box-shadow .3s $cubicBezierEaseInOut,
+    background-color .3s $cubicBezierEaseInOut,
+    opacity .3s $cubicBezierEaseInOut,
+    transform .3s $cubicBezierEaseInOut,
+    margin-bottom .3s $cubicBezierEaseInOut;
+    // padding: var(--n-padding);
+    // border-radius: var(--n-border-radius);
+  flex-wrap: nowrap;
+  overflow: hidden;
+  // max-width: var(--n-max-width);
+  // color: var(--n-text-color);
+  // background-color: var(--n-color);
+  // box-shadow: var(--n-box-shadow);
+  color: #fff;
+  background: rgba(0,0,0,5);
+}
+
+.gk-message-content {
+  display: inline-block;
+  // line-height: var(--n-line-height);
+  // font-size: var(--n-font-size);
+  font-size: 12px;
+}

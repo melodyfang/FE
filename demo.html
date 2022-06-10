@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEVHcEyC+tLSAAAAAXRSTlMAQObYZgAAAApJREFUeNpjYQAAAAoABUouQOkAAAAASUVORK5CYII=" alt="">
+<script type="module">
+    /**
+ * 日期过滤器
+ * @type Function
+ * @param {Date}    timestamp  时间戳
+ * @param {String}  type       转换类型，format 为空时为 format [timestamp:时间戳,near:就近时间]
+ * @param {String}  [format]   输出规范 [YYYY:年份,MM:补零的月份,M:月份,DD补零的日期:,D日期:,hh:小时,mm:分,ss:秒]
+ */
+function formatDate (timestamp, type, format) {
+  if (type === 'today') {
+    timestamp = Date.now()
+  }
+
+  timestamp = formatTimestamp(timestamp)
+
+  switch (type) {
+    case 'timestamp':
+      return timestamp
+    case 'near':
+      return near(timestamp, format)
+    default:
+      break
+  }
+
+  if (timestamp) {
+    let _date = getDate(timestamp)
+    let _year = _date.year
+    let _month = _date.month + ''
+    let _day = _date.day + ''
+    let _hour = _date.hour + ''
+    let _minute = _date.minute + ''
+    let _seconds = _date.seconds + ''
+
+    let weekMap = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+
+    switch (type) {
+      case 'today':
+        return new Date(_year, _month - 1, _day, 1, 0, 0)
+      case 'prevDay':
+        return new Date(_year, _month - 1, --_day)
+      case 'nextDay':
+        return new Date(_year, _month - 1, ++_day)
+      case 'prevWeek':
+        return new Date(_year, _month - 1, -7)
+      case 'nextWeek':
+        return new Date(_year, _month - 1, (_day | 0) + 7)
+      case 'prevMonth':
+        return new Date(_year, _month - 2, 1)
+      case 'nextMonth':
+        return new Date(_year, _month, 1)
+      case 'prevYear':
+        return new Date(_year - 1, _month - 1, 1)
+      case 'nextYear':
+        return new Date(_year + 1, _month - 1, 1)
+      case 'year':
+        format = 'YYYY 年 MM 月 DD 日'
+        break
+      case 'date':
+        format = 'M 月 D 日 hh:mm'
+        break
+      case 'datepicker':
+        format = 'YYYY-MM-DD hh:mm:ss'
+        break
+      case 'time':
+        format = 'hh:mm:ss'
+        break
+      default:
+        break
+    }
+
+    // 默认只传两个参数， format 值为 type
+    if (!format) {
+      format = type
+    }
+
+    format = format.replace(/YYYY/i, _year)
+    // format = format.replace('YYYY', _year)
+    format = format.replace('MM', _month.padStart(2, '0'))
+    format = format.replace('M', _month)
+    format = format.replace('DD', _day.padStart(2, '0'))
+    format = format.replace('D', _day)
+
+    format = format.replace('hh', _hour.padStart(2, '0'))
+    format = format.replace('mm', _minute.padStart(2, '0'))
+    format = format.replace('ss', _seconds.padStart(2, '0'))
+
+    format = format.replace('W', weekMap[_date.date.getDay()])
+
+    return format
+  }
+
+  return ''
+}
+
+/**
+ * 整合不同类型的 Date 数据，统一输出格式
+ * @param {Date|String|Number} reference   参考日期
+ * @param {String}             [format]    数据格式化类型，默认为 all [year,month,day,timestamp,date,morning,night,all]
+ */
+export function getDate (reference, format) {
+  if (!reference) {
+    throw Error('<Date getDate> param reference  is not define.')
+  }
+
+  const timestamp = formatTimestamp(reference)
+  const date = new Date(reference)
+  
+  switch (format) {
+    case 'date':
+      return date
+    case 'timestamp':
+      return date.getTime()
+    case 'year':
+      return date.getFullYear()
+    case 'month':
+      return date.getMonth() + 1
+    case 'day':
+      return date.getDate()
+    case 'morning':
+      return date.setHours(0, 0, 0)
+    case 'night':
+      return date.setHours(23, 59, 59)
+    default:
+      return {
+        date,
+        timestamp: date.getTime(),
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        seconds: date.getSeconds(),
+        morning: date.setHours(0, 0, 0),
+        night: date.setHours(23, 59, 59)
+      }
+  }
+}
+
+function formatTimestamp (time) {
+  if (!time) {
+    return 0
+  }
+
+  if (Object.prototype.toString.call(time) === '[object Date]') {
+    return time.getTime()
+  }
+
+  if (typeof time === 'string' && !/^\d+$/gi.test(time)) {
+    // 兼容 safari Date 格式 只能是 YYYY/MM/DD
+    time = time.replace(/-/g, '/')
+
+    try {
+      time = (new Date(time)).getTime()
+
+      if (time) {
+        return time
+      }
+    } catch (e) {
+      time = 0
+
+      console.warn('timestamp 的参数错误')
+    }
+  }
+
+  if (time) {
+    time += ''
+
+    if (time.length < 12) {
+      // const length = 13 - time.length
+      // time = time * Math.pow(10, length > 1 ? length : 0)
+
+      // 在确认为秒的时候，固定为 3 位
+      time = time + '000'
+    }
+
+    return time - 0
+  }
+
+  return 0
+}
+
+// let res = formatDate(1654572484713, 'time')
+// let res = formatDate(1654572484713, 'YYYY~MM~DD')
+// let res = formatDate(1654572484713, 'yyyy.M.DD (W)')
+let res = formatDate(1654572484713, 'yyyy.M.DD (W)', 'night')
+console.log('res: ', res);
+
+    
+</script>
+</body>
+</html>

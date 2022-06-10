@@ -1,0 +1,1 @@
+export const messageApiInjectionKey = 'gk-message-api'

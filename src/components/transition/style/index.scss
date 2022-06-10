@@ -1,0 +1,34 @@
+
+$duration: .2s;
+$cubicBezierEaseInOut: cubic-bezier(.4, 0, .2, 1);
+$delay: .1s;
+
+.fade-transition-leave-from,
+.fade-transition-enter-to {
+  opacity: 1
+}
+
+.fade-transition-leave-to,
+.fade-transition-enter-from {
+  opacity: 0!important;
+  margin-left: 0!important;
+  margin-right: 0!important;
+}
+
+.fade-transition-leave-active {
+  overflow: hidden;
+  transition:
+    opacity $duration $cubicBezierEaseInOut,
+    max-width $duration $cubicBezierEaseInOut $delay,
+    margin-left $duration $cubicBezierEaseInOut $delay,
+    margin-right $duration $cubicBezierEaseInOut $delay;
+}
+
+.fade-transition-enter-active {
+  overflow: hidden;
+  transition:
+    opacity $duration $cubicBezierEaseInOut $delay,
+    max-width $duration $cubicBezierEaseInOut,
+    margin-left $duration $cubicBezierEaseInOut,
+    margin-right $duration $cubicBezierEaseInOut;
+}

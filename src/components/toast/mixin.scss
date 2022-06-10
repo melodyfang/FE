@@ -1,0 +1,11 @@
+$wrap: '[gk-toast-wrap]';
+$message: '[gk-toast-message]';
+$position-center: '[gk-toast-position="center"]';
+$position-top: '[gk-toast-position="top"]';
+$position-bottom: '[gk-toast-position="bottom"]';
+
+@mixin appendGkToast ($name) {
+  [gk-toast-name="#{$name}"] {
+    @content;
+  }
+}

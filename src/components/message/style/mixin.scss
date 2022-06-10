@@ -1,0 +1,12 @@
+$wrapper: '[gk-message-wrapper]';
+$message: '[gk-message]';
+$message-content: '[gk-message-content]';
+
+
+$cubicBezierEaseInOut: 'cubic-bezier(.4, 0, .2, 1)';
+
+@mixin appendGkMessage ($name) {
+  [gk-message-name="#{$name}"] {
+    @content;
+  }
+}
