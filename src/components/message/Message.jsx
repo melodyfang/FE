@@ -1,6 +1,7 @@
 import { inject, defineComponent } from 'vue'
 import { messageProps } from './message-props'
 import { render } from './utils'
+import { messageProviderInjectionKey, messageApiInjectionKey } from './config'
 
 export default defineComponent({
   name: 'Message',
@@ -72,7 +73,8 @@ export default defineComponent({
               gk-message-content
               class={`${mergedClsPrefix}-message-content`}
             >
-              {render(content)}
+              hahah
+              {/* {render(content)} */}
             </div>
           </div>
         }

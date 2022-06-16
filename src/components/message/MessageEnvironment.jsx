@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import Message from './Message.jsx'
 import FadeTransition from '../transition/FadeTransition.jsx'
 
@@ -76,7 +76,7 @@ export default defineComponent({
     return {
       show: showRef,
       hide,
-      handleClose,
+      // handleClose,
       handleAfterLeave,
       // handleMouseleave,
       // handleMouseenter
