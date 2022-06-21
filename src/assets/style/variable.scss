@@ -3,19 +3,20 @@ $ant-prefix: ant;
 $white: #fff;
 $black: #000;
 
-$text-color: fade($black, 85%);
-$text-color-secondary: fade($black, 45%);
+$text-color: rgba(0,0,0,.85);
+$text-color-secondary: rgba(0,0,0,.45);
 $text-color-inverse: $white;
 $icon-color: inherit;
-$icon-color-hover: fade($black, 75%);
-$heading-color: fade($black, 85%);
-$text-color-dark: fade($white, 85%);
-$text-color-secondary-dark: fade($white, 65%);
+$icon-color-hover: rgba(0,0,0,.75);
+$heading-color: rgba(0,0,0,.85);
+$text-color-dark: rgba(255,255,255,.85);
+$text-color-secondary-dark: rgba(255,255,255,.65);
 
 $font-size-base: 14px;
 $font-size-lg: 16px;
 $line-height-base: 1.5715;
 
+// 字体印刷排版相关
 // $font-feature-settings-base: 'tnum'
 // $font-variant-base: tabular-nums;
 
@@ -32,7 +33,12 @@ $shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
 $iconfont-css-prefix: anticon;
 
 // >>> Success
-$success-color: 'var(--#{$ant-prefix}-success-color)';
-$info-color: 'var(--#{$ant-prefix}-info-color)';
-$error-color: 'var(--#{$ant-prefix}-error-color)';
-$warning-color: 'var(--#{$ant-prefix}-warning-color)';
+// $success-color: 'var(--#{$ant-prefix}-success-color)';
+// $info-color: 'var(--#{$ant-prefix}-info-color)';
+// $error-color: 'var(--#{$ant-prefix}-error-color)';
+// $warning-color: 'var(--#{$ant-prefix}-warning-color)';
+
+$success-color: 'var(--success-color)';
+$info-color: 'var(--info-color)';
+$error-color: 'var(--error-color)';
+$warning-color: 'var(--warning-color)';

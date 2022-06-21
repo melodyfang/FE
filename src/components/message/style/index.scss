@@ -3,7 +3,7 @@
 
 $message-prefix-cls: '#{$ant-prefix}-message';
 
-#{$message-prefix-cls} {
+.#{$message-prefix-cls} {
   @include reset-component();
 
   position: fixed;

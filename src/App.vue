@@ -9,7 +9,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
 import message from './components/message/index.jsx'
 
-message.info('hello world', 20)
+message.info('hello world', 2)
 
 
 // import { MessageProvider, useMessage } from './components/message/index.js'
@@ -30,12 +30,4 @@ message.info('hello world', 20)
 // @import "./components/message/style/index.scss";
 // @import "./components/transition/style/index.scss";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
