@@ -1,4 +1,6 @@
 import { createApp, h, resolveComponent } from 'vue'
+
+import './components/style.js'
 import App from './App.vue'
 
 import i18nPlugin from './plugins/i18n'

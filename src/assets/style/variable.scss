@@ -1,0 +1,38 @@
+$ant-prefix: ant;
+
+$white: #fff;
+$black: #000;
+
+$text-color: fade($black, 85%);
+$text-color-secondary: fade($black, 45%);
+$text-color-inverse: $white;
+$icon-color: inherit;
+$icon-color-hover: fade($black, 75%);
+$heading-color: fade($black, 85%);
+$text-color-dark: fade($white, 85%);
+$text-color-secondary-dark: fade($white, 65%);
+
+$font-size-base: 14px;
+$font-size-lg: 16px;
+$line-height-base: 1.5715;
+
+// $font-feature-settings-base: 'tnum'
+// $font-variant-base: tabular-nums;
+
+$zindex-message: 1010;
+$message-notice-content-padding: 10px 16px;
+$message-notice-content-bg: #fff;
+$border-radius-base: 2px;
+
+$shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+  0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+
+// icon
+$iconfont-css-prefix: anticon;
+
+// >>> Success
+$success-color: 'var(--#{$ant-prefix}-success-color)';
+$info-color: 'var(--#{$ant-prefix}-info-color)';
+$error-color: 'var(--#{$ant-prefix}-error-color)';
+$warning-color: 'var(--#{$ant-prefix}-warning-color)';

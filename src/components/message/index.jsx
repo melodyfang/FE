@@ -1,4 +1,6 @@
-import Notification from './notification'
+import Notification from '../vc-notification'
+
+import { classNames } from '../_utils'
 
 let defaultDuration = 3
 let defaultTop = null
@@ -78,8 +80,11 @@ function getMessageInstance (args, callback) {
 }
 
 function notice(args) {
+  console.log('args: ', args);
   const duration = args.duration !== undefined ? args.duration : defaultDuration
   const target = args.key || getkey()
+
+  // debugger
 
   const closePromise = new Promise(resolve => {
     const callback = () => {
