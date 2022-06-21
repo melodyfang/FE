@@ -17,6 +17,13 @@ function getkey () {
   return key++
 }
 
+function isArgsProps(content) {
+  return (
+    Object.prototype.toString.call(content) === '[object Object]' &&
+    !!content.content
+  )
+}
+
 function setMessageConfig (options) {
   if (options.top !== undefined) {
     defaultTop = options.top
@@ -27,7 +34,7 @@ function setMessageConfig (options) {
     defaultDuration = options.duration
   }
 
-  if (options.prefixClas !== undefined) {
+  if (options.prefixCls !== undefined) {
     localPrefixCls = options.prefixCls
   }
 
@@ -49,6 +56,7 @@ function setMessageConfig (options) {
 }
 
 function getMessageInstance (args, callback) {
+  console.log('args: ', args);
   if (messageInstance) {
     callback(messageInstance)
     return
@@ -80,7 +88,7 @@ function getMessageInstance (args, callback) {
 }
 
 function notice(args) {
-  console.log('args: ', args);
+  // console.log('args: ', args);
   const duration = args.duration !== undefined ? args.duration : defaultDuration
   const target = args.key || getkey()
 
@@ -150,6 +158,10 @@ export function attachTypeApi(originalApi, type) {
     duration,
     onClose
   ) => {
+    if (isArgsProps(content)) {
+      return originalApi.open({ ...content, type })
+    }
+
     if (typeof duration === 'function') {
       onClose = duration
       duration = undefined

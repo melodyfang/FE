@@ -124,7 +124,7 @@ const Notification = defineComponent({
         )
       })
 
-      console.log('noticeNodes', noticeNodes)
+      // console.log('noticeNodes', noticeNodes)
 
       const className = {
         [prefixCls]: 1,
@@ -151,6 +151,7 @@ const Notification = defineComponent({
 })
 
 Notification.newInstance = function newNotificationInstance(properties, callback) {
+  console.log('properties: ', properties);
   const {
     name = 'notification',
     getContainer,
@@ -196,31 +197,35 @@ Notification.newInstance = function newNotificationInstance(properties, callback
       return () => {
 
         const global = globalConfigForApi
+        console.log('global: ', global);
         const prefixCls = global.getPrefixCls(name, customizePrefixCls)
+        console.log('customizePrefixCls: ', customizePrefixCls);
+        console.log('prefixCls: ', prefixCls);
         const rootPrefixCls = global.getRootPrefixCls(customRootPrefixCls, prefixCls)
+        console.log('rootPrefixCls: ', rootPrefixCls);
         const transitionName = hasTransitionName
           ? customTransitionName
           : `${rootPrefixCls}-${customTransitionName}`
 
-        // return (
-        //   <ConfigProvider {...global} notUpdateGlobalConfig={true} prefixCls={rootPrefixCls}>
-        //     <Notification
-        //       ref={notiRef}
-        //       {...attrs}
-        //       prefixCls={prefixCls}
-        //       transitionName={transitionName}
-        //     />
-        //   </ConfigProvider>
-        // )
-
         return (
-          <Notification
-            ref={notiRef}
-            {...attrs}
-            prefixCls={prefixCls}
-            transitionName={transitionName}
-          />
+          <ConfigProvider {...global} notUpdateGlobalConfig={true} prefixCls={rootPrefixCls}>
+            <Notification
+              ref={notiRef}
+              {...attrs}
+              prefixCls={prefixCls}
+              transitionName={transitionName}
+            />
+          </ConfigProvider>
         )
+
+        // return (
+        //   <Notification
+        //     ref={notiRef}
+        //     {...attrs}
+        //     prefixCls={prefixCls}
+        //     transitionName={transitionName}
+        //   />
+        // )
       }
     },
   })

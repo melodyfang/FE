@@ -9,7 +9,19 @@ import HelloWorld from './components/HelloWorld.vue'
 
 import message from './components/message/index.jsx'
 
-message.info('hello world', 2)
+message.config({
+  top: '100px',
+  prefixCls: 'melody-message'
+})
+
+function notice () {
+  // message.info('hello world', 20)
+  message.info({
+    content: 'this is a message',
+    class: 'custom-class',
+    duration: 0
+  })
+}
 
 
 // import { MessageProvider, useMessage } from './components/message/index.js'
@@ -19,7 +31,7 @@ message.info('hello world', 2)
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
-  hhh
+  <button @click="notice">点我</button>
 
   <!-- <MessageProvider>
     <Hello />
@@ -30,4 +42,7 @@ message.info('hello world', 2)
 // @import "./components/message/style/index.scss";
 // @import "./components/transition/style/index.scss";
 
+button {
+  margin: 100px;
+}
 </style>
