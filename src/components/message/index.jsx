@@ -56,16 +56,13 @@ function setMessageConfig (options) {
 }
 
 function getMessageInstance (args, callback) {
-  console.log('args: ', args);
   if (messageInstance) {
     callback(messageInstance)
     return
   }
 
   Notification.newInstance(
-    
     {
-      appContext: args.appContext,
       prefixCls: args.prefixCls || localPrefixCls,
       rootPrefixCls: args.rootPrefixCls,
       transitionName,
@@ -87,10 +84,11 @@ function getMessageInstance (args, callback) {
   )
 }
 
+// 主要是通过调用该方法弹出消息
 function notice(args) {
-  // console.log('args: ', args);
   const duration = args.duration !== undefined ? args.duration : defaultDuration
   const target = args.key || getkey()
+  console.log('target: ', target);
 
   // debugger
 
@@ -118,7 +116,9 @@ function notice(args) {
               <span>{typeof args.content === 'function' ? args.content() : args.content}</span>
             </div>
           )
-        }
+        },
+        onClose: callback,
+        onClick: args.onClick
       })
     })
   })
@@ -158,15 +158,18 @@ export function attachTypeApi(originalApi, type) {
     duration,
     onClose
   ) => {
+    // 如果传入的参数对象的格式，比如 {content: 'hello', duration: 2}
     if (isArgsProps(content)) {
       return originalApi.open({ ...content, type })
     }
 
+    // 兼容类似这种调用方式 message.info(content, [duration], onClose).then(afterClose)
     if (typeof duration === 'function') {
       onClose = duration
       duration = undefined
     }
 
+    // 普通调用，如 message.info('hello', 2)
     return originalApi.open({ content, duration, type, onClose })
   }
 }

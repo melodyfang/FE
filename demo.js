@@ -12,4 +12,3 @@ console.log('foo: ', foo);
 
 // import foo from './cjsmodule/index.mjs'
 // console.log('foo: ', foo);
-

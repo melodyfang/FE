@@ -58,8 +58,9 @@ const Notification = defineComponent({
       }
 
       notices.value = updatedNotices
+      // console.log('updatedNotices: ', updatedNotices);
     }
-
+    
     const remove = (removeKey) => {
       notices.value = notices.value.filter(({ notice: { key, userPassKey } }) => {
         const mergedKey = userPassKey || key
@@ -150,12 +151,11 @@ const Notification = defineComponent({
   }
 })
 
-Notification.newInstance = function newNotificationInstance(properties, callback) {
+Notification.newInstance = function (properties, callback) {
   console.log('properties: ', properties);
   const {
     name = 'notification',
     getContainer,
-    appContext,
     prefixCls: customizePrefixCls,
     rootPrefixCls: customRootPrefixCls,
     transitionName: customTransitionName,
@@ -197,16 +197,16 @@ Notification.newInstance = function newNotificationInstance(properties, callback
       return () => {
 
         const global = globalConfigForApi
-        console.log('global: ', global);
+        // console.log('global: ', global);
         const prefixCls = global.getPrefixCls(name, customizePrefixCls)
-        console.log('customizePrefixCls: ', customizePrefixCls);
-        console.log('prefixCls: ', prefixCls);
+        // console.log('customizePrefixCls: ', customizePrefixCls);
+        // console.log('prefixCls: ', prefixCls);
         const rootPrefixCls = global.getRootPrefixCls(customRootPrefixCls, prefixCls)
-        console.log('rootPrefixCls: ', rootPrefixCls);
+        // console.log('rootPrefixCls: ', rootPrefixCls);
         const transitionName = hasTransitionName
           ? customTransitionName
           : `${rootPrefixCls}-${customTransitionName}`
-
+        
         return (
           <ConfigProvider {...global} notUpdateGlobalConfig={true} prefixCls={rootPrefixCls}>
             <Notification
@@ -231,7 +231,6 @@ Notification.newInstance = function newNotificationInstance(properties, callback
   })
 
   const vm = createVNode(Wrapper, props)
-  vm.appContext = appContext || vm.appContext
   render(vm, div)
 }
 

@@ -11,16 +11,27 @@ import message from './components/message/index.jsx'
 
 message.config({
   top: '100px',
-  prefixCls: 'melody-message'
+  maxCount: 3,
+  // prefixCls: 'melody-message'
 })
 
 function notice () {
-  // message.info('hello world', 20)
   message.info({
     content: 'this is a message',
+    prefixCls: 'why-message',
     class: 'custom-class',
-    duration: 0
+    duration: 20
   })
+
+  // const result = message.info('hello world', 20, () => {
+  //   console.log('close')
+  // })
+
+  // console.log('result: ', result)
+
+  // result.then((data) => {
+  //   console.log('promise-data: ', data)
+  // })
 }
 
 

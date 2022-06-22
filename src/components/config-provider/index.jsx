@@ -11,13 +11,8 @@ export const globalConfigForApi = reactive({
   getRootPrefixCls: () => {}
 })
 
-
 function getGlobalPrefixCls() {
   return globalConfigForApi.prefixCls || defaultPrefixCls
-}
-
-function defaultRenderEmpty () {
-  console.log('render empty')
 }
 
 watchEffect(() => {
@@ -98,19 +93,10 @@ const ConfigProvider = defineComponent({
   inheritAttrs: false,
   props: configProviderProps(),
   setup(props, { slots }) {
-    console.log('slots: ', slots);
     const getPrefixCls = (suffixCls, customizePrefixCls) => {
       const { prefixCls = 'ant' } = props
       if (customizePrefixCls) return customizePrefixCls
       return suffixCls ? `${prefixCls}-${suffixCls}` : prefixCls
-    }
-
-    const renderEmptyComponent = (name) => {
-      const renderEmpty = (props.renderEmpty ||
-        slots.renderEmpty ||
-        defaultRenderEmpty)
-
-      return renderEmpty(name)
     }
 
     const getPrefixClsWrapper = (suffixCls, customizePrefixCls) => {
@@ -126,7 +112,6 @@ const ConfigProvider = defineComponent({
     const configProvider = reactive({
       ...props,
       getPrefixCls: getPrefixClsWrapper,
-      renderEmpty: renderEmptyComponent,
     })
 
     Object.keys(props).forEach(key => {
@@ -145,25 +130,13 @@ const ConfigProvider = defineComponent({
       })
     }
 
-    const validateMessagesRef = computed(() => {
-      // Additional Form provider
-      let validateMessages = {}
-
-      if (props.form && props.form.validateMessages) {
-        validateMessages = { ...validateMessages, ...props.form.validateMessages }
-      }
-
-      return validateMessages
-    })
-
-    useProvideGlobalForm({ validateMessages: validateMessagesRef })
     provide('configProvider', configProvider)
 
-    return () => {
-      <>
+    return () => (
+      <div>
         {slots.default?.()}
-      </>
-    }
+      </div> 
+    )
   },
 })
 
@@ -171,12 +144,11 @@ export const defaultConfigProvider = reactive({
   getPrefixCls: (suffixCls, customizePrefixCls) => {
     if (customizePrefixCls) return customizePrefixCls
     return suffixCls ? `ant-${suffixCls}` : 'ant'
-  },
-  renderEmpty: defaultRenderEmpty
+  }
 })
 
 
-ConfigProvider.config = setGlobalConfig;
+ConfigProvider.config = setGlobalConfig
 ConfigProvider.install = function (app) {
   app.component(ConfigProvider.name, ConfigProvider)
 }
