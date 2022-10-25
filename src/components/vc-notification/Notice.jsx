@@ -11,8 +11,6 @@ export default defineComponent({
     'duration',
     'updateMark',
     'noticeKey',
-    'closeIcon',
-    'closable',
     'props',
     'onClick',
     'onClose',
@@ -77,7 +75,7 @@ export default defineComponent({
     )
 
     return () => {
-      const { prefixCls, closable, closeIcon = slots.closeIcon?.(), onClick, holder } = props
+      const { prefixCls, onClick, holder } = props
       const { class: className, style } = attrs
       const componentClass = `${prefixCls}-notice`
 
@@ -93,9 +91,7 @@ export default defineComponent({
 
       const node = (
         <div
-          class={classNames(componentClass, className, {
-            [`${componentClass}-closable`]: closable,
-          })}
+          class={classNames(componentClass, className)}
           style={style}
           onMouseenter={clearCloseTimer}
           onMouseleave={startCloseTimer}
@@ -103,11 +99,6 @@ export default defineComponent({
           {...dataOrAriaAttributeProps}
         >
           <div class={`${componentClass}-content`}>{slots.default?.()}</div>
-          {closable ? (
-            <a tabindex={0} onClick={close} class={`${componentClass}-close`}>
-              {closeIcon || <span class={`${componentClass}-close-x`} />}
-            </a>
-          ) : null}
         </div>
       )
 

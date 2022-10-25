@@ -8,8 +8,6 @@ let key = 1
 let localPrefixCls = ''
 let messageInstance = null
 
-let transitionName = 'move-up'
-let hasTransitionName = false
 let getContainer = () => document.body
 let maxCount = 0
 
@@ -43,12 +41,6 @@ function setMessageConfig (options) {
     messageInstance = null
   }
 
-  if (options.transitionName !== undefined) {
-    transitionName = options.transitionName
-    messageInstance = null
-    hasTransitionName = true
-  }
-
   if (options.maxCount !== undefined) {
     maxCount = options.maxCount
     messageInstance = null
@@ -64,11 +56,8 @@ function getMessageInstance (args, callback) {
   Notification.newInstance(
     {
       prefixCls: args.prefixCls || localPrefixCls,
-      rootPrefixCls: args.rootPrefixCls,
-      transitionName,
-      hasTransitionName,
       style: { top: defaultTop }, // 覆盖原来的样式
-      getContainer: getContainer || args.getPopupContainer,
+      getContainer: getContainer,
       maxCount,
       name: 'message'
     },
@@ -89,8 +78,6 @@ function notice(args) {
   const duration = args.duration !== undefined ? args.duration : defaultDuration
   const target = args.key || getkey()
   console.log('target: ', target);
-
-  // debugger
 
   const closePromise = new Promise(resolve => {
     const callback = () => {

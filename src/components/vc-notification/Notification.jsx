@@ -1,10 +1,8 @@
 import { computed, defineComponent, TransitionGroup, render, createVNode, ref, onMounted } from "vue"
 
-import { getTransitionGroupProps } from '../_utils'
+import { getTransitionGroupProps, getPrefixCls } from '../_utils'
 
 import Notice from './Notice'
-
-import ConfigProvider, { globalConfigForApi } from '../config-provider'
 
 let seed = 0
 const now = Date.now()
@@ -14,24 +12,15 @@ function getUuid() {
   return `rcNotification_${now}_${id}`
 }
 
-
 const Notification = defineComponent({
   name: 'Notification',
   inheritAttrs: false,
-  props: ['prefixCls', 'transitionName', 'animation', 'maxCount'],
+  props: ['prefixCls', 'maxCount'],
   setup (props, { attrs, expose, slots }) {
     const hookRefs = new Map()
     const notices = ref([])
-    const transitionProps = computed(() => {
-      const { prefixCls, animation = 'fade' } = props
-      let name = props.transitionName
-      if (!name && animation) {
-        name = `${prefixCls}-${animation}`
-      }
-      return getTransitionGroupProps(name)
-    })
-
-    const add = (originNotice, holderCallback) => {
+    
+    const add = (originNotice) => {
       const key = originNotice.key || getUuid()
       const notice = {
         ...originNotice,
@@ -43,7 +32,7 @@ const Notification = defineComponent({
       const updatedNotices = notices.value.concat()
       
       if (noticeIndex !== -1) {
-        updatedNotices.splice(noticeIndex, 1, { notice, holderCallback })
+        updatedNotices.splice(noticeIndex, 1, { notice })
       } else {
         if (maxCount && notices.value.length >= maxCount) {
           notice.key = updatedNotices[0].notice.key
@@ -54,11 +43,10 @@ const Notification = defineComponent({
           updatedNotices.shift()
         }
 
-        updatedNotices.push({ notice, holderCallback })
+        updatedNotices.push({ notice })
       }
 
       notices.value = updatedNotices
-      // console.log('updatedNotices: ', updatedNotices);
     }
     
     const remove = (removeKey) => {
@@ -77,15 +65,15 @@ const Notification = defineComponent({
     return () => {
       const { prefixCls } = props
 
-      const noticeNodes = notices.value.map(({ notice, holderCallback }, index) => {
+      const noticeNodes = notices.value.map(({ notice }, index) => {
+        console.log('notice: ', notice);
         const updateMark = index === notices.value.length - 1 ? notice.updateMark : undefined
         const { key, userPassKey } = notice
 
         const { content } = notice
         const noticeProps = {
           prefixCls,
-          // closeIcon: typeof closeIcon === 'function' ? closeIcon({ prefixCls }) : closeIcon,
-          ...(notice),
+          ...notice,
           ...notice.props,
           key,
           noticeKey: userPassKey || key,
@@ -96,36 +84,14 @@ const Notification = defineComponent({
           },
           onClick: notice.onClick,
         }
-
-        if (holderCallback) {
-          return (
-            <div
-              key={key}
-              class={`${prefixCls}-hook-holder`}
-              ref={(div) => {
-                if (typeof key === 'undefined') {
-                  return
-                }
-
-                if (div) {
-                  hookRefs.set(key, div)
-                  holderCallback(div, noticeProps)
-                } else {
-                  hookRefs.delete(key)
-                }
-              }}
-            />
-          )
-        }
-
+        
+        console.log('noticeProps: ', noticeProps)
         return (
           <Notice {...noticeProps}>
             {typeof content === 'function' ? content({ prefixCls }) : content}
           </Notice>
         )
       })
-
-      // console.log('noticeNodes', noticeNodes)
 
       const className = {
         [prefixCls]: 1,
@@ -142,7 +108,7 @@ const Notification = defineComponent({
             }
           }
         >
-          <TransitionGroup tag="div" {...transitionProps.value}>
+          <TransitionGroup tag="div">
             {noticeNodes}
           </TransitionGroup>
         </div>
@@ -152,13 +118,11 @@ const Notification = defineComponent({
 })
 
 Notification.newInstance = function (properties, callback) {
-  console.log('properties: ', properties);
   const {
     name = 'notification',
     getContainer,
     prefixCls: customizePrefixCls,
-    rootPrefixCls: customRootPrefixCls,
-    transitionName: customTransitionName,
+    transitionName,
     hasTransitionName,
     ...props
   } = properties || {}
@@ -186,6 +150,7 @@ Notification.newInstance = function (properties, callback) {
           },
           destroy() {
             render(null, div)
+
             if (div.parentNode) {
               div.parentNode.removeChild(div)
             }
@@ -194,39 +159,15 @@ Notification.newInstance = function (properties, callback) {
         })
       })
 
-      return () => {
+      const prefixCls = getPrefixCls(name, customizePrefixCls)
 
-        const global = globalConfigForApi
-        // console.log('global: ', global);
-        const prefixCls = global.getPrefixCls(name, customizePrefixCls)
-        // console.log('customizePrefixCls: ', customizePrefixCls);
-        // console.log('prefixCls: ', prefixCls);
-        const rootPrefixCls = global.getRootPrefixCls(customRootPrefixCls, prefixCls)
-        // console.log('rootPrefixCls: ', rootPrefixCls);
-        const transitionName = hasTransitionName
-          ? customTransitionName
-          : `${rootPrefixCls}-${customTransitionName}`
-        
-        return (
-          <ConfigProvider {...global} notUpdateGlobalConfig={true} prefixCls={rootPrefixCls}>
-            <Notification
-              ref={notiRef}
-              {...attrs}
-              prefixCls={prefixCls}
-              transitionName={transitionName}
-            />
-          </ConfigProvider>
-        )
-
-        // return (
-        //   <Notification
-        //     ref={notiRef}
-        //     {...attrs}
-        //     prefixCls={prefixCls}
-        //     transitionName={transitionName}
-        //   />
-        // )
-      }
+      return () => (
+        <Notification
+          ref={notiRef}
+          {...attrs}
+          prefixCls={prefixCls}
+        />
+      )
     },
   })
 

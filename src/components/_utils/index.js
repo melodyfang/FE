@@ -1,7 +1,9 @@
-export const isArray = Array.isArray;
-export const isString = val => typeof val === 'string';
-export const isSymbol = val => typeof val === 'symbol';
-export const isObject = val => val !== null && typeof val === 'object';
+export const isArray = Array.isArray
+export const isString = val => typeof val === 'string'
+export const isSymbol = val => typeof val === 'symbol'
+export const isObject = val => val !== null && typeof val === 'object'
+
+const defaultPrefixCls = 'ant'
 
 export function classNames(...args) {
   const classes = [];
@@ -45,4 +47,12 @@ export const getTransitionGroupProps = (transitionName, opt = {}) => {
       }
     : { css: false, ...opt }
   return transitionProps
+}
+
+export function getPrefixCls (suffixCls, customizePrefixCls) {
+  if (customizePrefixCls) {
+    return customizePrefixCls
+  }
+
+  return `${defaultPrefixCls}-${suffixCls}`
 }

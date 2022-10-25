@@ -51,7 +51,8 @@ $message-prefix-cls: '#{$ant-prefix}-message';
     font-size: $font-size-lg;
   }
 
-  &-notice.#{$ant-prefix}-move-up-leave.#{$ant-prefix}-move-up-leave-active {
+  &-notice.move-up-leave,
+  &-notice.move-up-leave-active {
     animation-name: MessageMoveOut;
     animation-duration: 0.3s;
   }

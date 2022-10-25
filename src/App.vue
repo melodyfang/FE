@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue'
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from './components/HelloWorld.vue'
@@ -12,15 +13,14 @@ import message from './components/message/index.jsx'
 message.config({
   top: '100px',
   maxCount: 3,
-  // prefixCls: 'melody-message'
 })
 
 function notice () {
   message.info({
     content: 'this is a message',
-    prefixCls: 'why-message',
-    class: 'custom-class',
-    duration: 20
+    // prefixCls: 'why-aa',
+    // class: 'custom-class',
+    duration: 2
   })
 
   // const result = message.info('hello world', 20, () => {
@@ -34,11 +34,13 @@ function notice () {
   // })
 }
 
+onMounted(() => {
+  console.log('mounted')
+})
 
 // import { MessageProvider, useMessage } from './components/message/index.js'
 // console.log('MessageProvider: ', MessageProvider);
 </script>
-
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
