@@ -1,0 +1,26 @@
+%message {
+  color: #333;
+}
+
+.msg {
+  @extend %message;
+  background: #000;
+}
+
+
+a {
+  color: #000;
+
+  body & {
+    color: blue;
+  }
+}
+
+$name: box;
+p.#{$name} {
+
+}
+
+p.box {
+
+}
