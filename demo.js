@@ -13,7 +13,4 @@ console.log('foo: ', foo);
 // import foo from './cjsmodule/index.mjs'
 // console.log('foo: ', foo);
 
-
-commit-msg
-
-pre-commit
+console.log('这是一行测试代码')
