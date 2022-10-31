@@ -17,3 +17,5 @@ console.log('foo: ', foo);
 commit-msg
 
 pre-commit
+
+console.log('测试一下 git reset')
